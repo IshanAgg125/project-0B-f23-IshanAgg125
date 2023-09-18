@@ -103,7 +103,6 @@ void addFileToNewDirectory(char *file, char *directory) {
     printf("%s", "Is Entering here");
     char *isTheFileAPath = strrchr(file, '/');
     // Take care of having two "/" Folder1/Folder2/
-    printf("isTheFileAPath: %s\n", isTheFileAPath + 1);
     char newPathOfTheFileToDirectory[500];
     char newPath[200];
     if (isTheFileAPath != NULL) {
@@ -131,12 +130,9 @@ void addAllTheFilesToDirectory(int argc, char **argv) {
             printf("%s, count = %d\n", argv[i], count);
         }
     }
-    printf("This should be the directory: %s", argv[argc-1]);
     if (isDirectory(argv[argc-1])) {
-        printf("This should be the directory: %s", argv[argc-1]);
-        printf("count = %d, argc - 2: %d", count, (argc-2));
+        printf("This should be the directory: %s\n", argv[argc-1]);
         if (count == (argc - 2)) {
-            printf("%s", "Enering the main argument");
             for(int i = 1; i < argc-1; i++) {
                 addFileToNewDirectory(argv[i], argv[argc-1]);
             }
