@@ -10,14 +10,14 @@ int isFile(char *file);
 int isDirectory(char *path);
 void overwriteFileOrCopyFile(char *file1, char *file2);
 void addFileToNewDirectory(char *file, char *directory);
-void addAllTheFilesToDirectory(char **argv);
+void addAllTheFilesToDirectory(int argc, char **argv);
 
 //void copyFileAndPlaceInDirectory(char *file, char *directory);
 
 int main(int argc, char **argv) {
     printf("Number of arguments: %d\n", argc);
-    printf("This is a file: %d, %s\n", isFile(argv[1]), argv[1]);
-    printf("This is a directory %d, %s\n", isDirectory(argv[2]), argv[2]);
+    // printf("This is a file: %d, %s\n", isFile(argv[1]), argv[1]);
+    // printf("This is a directory %d, %s\n", isDirectory(argv[2]), argv[2]);
 
     if (argc < 3) {
         perror("The number of arguments was less than 2");
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
             exit(EXIT_FAILURE);
         }
     } else {
-        addAllTheFilesToDirectory(argv);
+        addAllTheFilesToDirectory(argc, argv);
         //printf("%s", "Not meeting condition at the moment.");
     }
 
@@ -100,7 +100,9 @@ void overwriteFileOrCopyFile(char *file1, char *file2) {
 }
 
 void addFileToNewDirectory(char *file, char *directory) {
+    printf("%s", "Is Entering here");
     char *isTheFileAPath = strrchr(file, '/');
+    // Take care of having two "/" Folder1/Folder2/
     printf("isTheFileAPath: %s\n", isTheFileAPath + 1);
     char newPathOfTheFileToDirectory[500];
     char newPath[200];
@@ -117,6 +119,29 @@ void addFileToNewDirectory(char *file, char *directory) {
     }
 }
 
-void addAllTheFilesToDirectory(char **argv) {
-    
+void addAllTheFilesToDirectory(int argc, char **argv) {
+    char *arr[argc];
+    int count = 0;
+    for (int i = 0; i < argc; i++) {
+        arr[i] = argv[i];
+    }
+    for(int i = 1; i < argc-1; i++) {
+        if (isFile(argv[i])) {
+            count = count + 1;
+            printf("%s, count = %d\n", argv[i], count);
+        }
+    }
+    printf("This should be the directory: %s", argv[argc-1]);
+    if (isDirectory(argv[argc-1])) {
+        printf("This should be the directory: %s", argv[argc-1]);
+        printf("count = %d, argc - 2: %d", count, (argc-2));
+        if (count == (argc - 2)) {
+            printf("%s", "Enering the main argument");
+            for(int i = 1; i < argc-1; i++) {
+                addFileToNewDirectory(argv[i], argv[argc-1]);
+            }
+        }
+    } else {
+        perror("The directory is not working");
+    }
 }
