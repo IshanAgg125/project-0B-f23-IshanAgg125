@@ -16,7 +16,7 @@ void addAllTheFilesToDirectory(int argc, char **argv);
 
 int main(int argc, char **argv) {
     printf("Number of arguments: %d\n", argc);
-    // printf("This is a file: %d, %s\n", isFile(argv[1]), argv[1]);
+    printf("This is a file: %d, %s\n", isFile(argv[1]), argv[1]);
     // printf("This is a directory %d, %s\n", isDirectory(argv[2]), argv[2]);
 
     if (argc < 3) {
@@ -87,8 +87,8 @@ void overwriteFileOrCopyFile(char *file1, char *file2) {
     int bytesRead;
     file = fopen(file1, "rb");
     copy = fopen(file2, "wb");
-
-    if (file == NULL || copy == NULL) {
+    
+    if (file == NULL) {
         perror("Error opening the file");
         exit(EXIT_FAILURE);
     }
@@ -126,11 +126,7 @@ void addFileToNewDirectory(char *file, char *directory) {
 }
 
 void addAllTheFilesToDirectory(int argc, char **argv) {
-    char *arr[argc];
     int count = 0;
-    for (int i = 0; i < argc; i++) {
-        arr[i] = argv[i];
-    }
     for(int i = 1; i < argc-1; i++) {
         if (isFile(argv[i])) {
             count = count + 1;
