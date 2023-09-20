@@ -82,25 +82,32 @@ int isDirectory(char *path) {
 void overwriteFileOrCopyFile(char *file1, char *file2) {
     FILE *file;
     FILE *copy;
-    char text;
-    file = fopen(file1, "r");
-    copy = fopen(file2, "w");
+    //char text;
+    char fileText[1000];
+    int bytesRead;
+    file = fopen(file1, "rb");
+    copy = fopen(file2, "wb");
 
     if (file == NULL || copy == NULL) {
         perror("Error opening the file");
         exit(EXIT_FAILURE);
     }
-    
-    while ((text = fgetc(file)) != EOF) {
-        fputc(text, copy);
+
+
+
+    while((bytesRead = fread(fileText, 1, sizeof(fileText), file)) > 0) {
+        fwrite(fileText, 1, bytesRead, copy);
     }
+
+    // while ((text = fgetc(file)) != EOF) {
+    //     fputc(text, copy);
+    // }
     fclose(file);
     fclose(copy);
 
 }
 
 void addFileToNewDirectory(char *file, char *directory) {
-    printf("%s", "Is Entering here");
     char *isTheFileAPath = strrchr(file, '/');
     // Take care of having two "/" Folder1/Folder2/
     char newPathOfTheFileToDirectory[500];
@@ -127,7 +134,7 @@ void addAllTheFilesToDirectory(int argc, char **argv) {
     for(int i = 1; i < argc-1; i++) {
         if (isFile(argv[i])) {
             count = count + 1;
-            printf("%s, count = %d\n", argv[i], count);
+            //printf("%s, count = %d\n", argv[i], count);
         }
     }
     if (isDirectory(argv[argc-1])) {

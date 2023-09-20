@@ -1,1 +1,10 @@
-What's up my dudes?
+  props: {
+    /**
+     * The variant to use.
+     * 
+     */
+    
+    variant?: Variant;
+  } & Omit<TextFieldProps, 'variant'>,
+): JSX.Element;
+
